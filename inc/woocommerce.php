@@ -78,7 +78,7 @@ add_action( 'woocommerce_process_product_meta_simple', 'save_giftcard_option_fie
 function save_giftcard_option_fields( $post_id ) {
 	global $wp_roles;
 	$roles = $wp_roles->get_names();
-	error_log(print_r($_POST, true));
+	//error_log(print_r($_POST, true));
 	foreach ($roles as $key => $role) {
 		if ( isset( $_POST['_value_single_'.$key] ) ) :
 			update_post_meta( $post_id, '_value_single_'.$key, $_POST['_value_single_'.$key] );
@@ -86,6 +86,18 @@ function save_giftcard_option_fields( $post_id ) {
 		if ( isset( $_POST['_value_double_'.$key] ) ) :
 			update_post_meta( $post_id, '_value_double_'.$key, $_POST['_value_double_'.$key]);
 		endif;
+	}
+}
+
+add_action( 'wp_ajax_wtp_save_table_price', 'wtp_save_table_price' );
+add_action( 'wp_ajax_nopriv_wtp_save_table_price', 'wtp_save_table_price' );
+function wtp_save_table_price(){
+	$data = $_POST['product_data'];
+	foreach($data as $product){
+		$product_id = $product['id'];
+		foreach ($product['data'] as $meta_box) {
+			update_post_meta( $product_id, $meta_box['meta'],  $meta_box['value'] );
+		}
 	}
 }
 
