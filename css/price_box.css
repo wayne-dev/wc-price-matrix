@@ -91,3 +91,6 @@ table#table-prices tr.name-cat td {
 #table-prices tr td.product_name {
     background: #3F51B5!important;
 }
+table#table-prices tr.product td input{
+    width: 70px;
+}

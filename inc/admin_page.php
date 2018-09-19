@@ -57,6 +57,7 @@ function wpt_plugin_options() {
             </tr>
             <?php
             $args_post = array(
+				'posts_per_page'   => 10,
                 'post_type' => 'product',
                 'tax_query' => array(
                     array(
@@ -74,8 +75,8 @@ function wpt_plugin_options() {
                     <td class = "product_name"><?php echo get_the_title($product->ID); ?></td>
                     <?php
                     foreach($roles as $key => $role) {
-                        echo '<td class="single"><input placeholder = "N/A" name="_value_single_'.$key.'" id="_value_single_'.$key.'" value="'.get_post_meta($product->ID, '_value_single_'.$key, true).'" size="10"/></td>';
-                        echo '<td class="double"><input placeholder = "N/A" name="_value_double_'.$key.'" id="_value_double_'.$key.'" value="'.get_post_meta($product->ID, '_value_double_'.$key, true).'" size="10"/></td>';
+                        echo '<td class="single"><input type = "number" min="0" step="0.1" placeholder = "N/A" name="_value_single_'.$key.'" id="_value_single_'.$key.'" value="'.get_post_meta($product->ID, '_value_single_'.$key, true).'" size="10"/></td>';
+                        echo '<td class="double"><input type = "number" min="0" step="0.1" placeholder = "N/A" name="_value_double_'.$key.'" id="_value_double_'.$key.'" value="'.get_post_meta($product->ID, '_value_double_'.$key, true).'" size="10"/></td>';
                     }
 	                ?>
                 </tr>
