@@ -111,7 +111,7 @@ function wpt_plugin_options() {
                 });
                 var data = {'action': 'wtp_save_table_price', 'product_data': row_products};
                 $.post('<?php echo admin_url( 'admin-ajax.php' ); ?>', data, function(response){
-
+                    location.reload();
                 });
             })
         });

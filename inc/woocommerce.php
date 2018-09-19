@@ -1,5 +1,5 @@
 <?php
-add_filter( 'product_type_options', 'add_numberbox_product_option' );
+//add_filter( 'product_type_options', 'add_numberbox_product_option' );
 function add_numberbox_product_option( $product_type_options ) {
 	$product_type_options['numberbox'] = array(
 		'id'            => '_numberbox',
@@ -11,7 +11,7 @@ function add_numberbox_product_option( $product_type_options ) {
 	return $product_type_options;
 }
 
-add_filter( 'woocommerce_product_data_tabs', 'wtf_munberbox_product_panel_tabs' );
+//add_filter( 'woocommerce_product_data_tabs', 'wtf_munberbox_product_panel_tabs' );
 function wtf_munberbox_product_panel_tabs($tabs) {
     // Adds the new tab
     $tabs['numberbox'] = array(
@@ -22,7 +22,7 @@ function wtf_munberbox_product_panel_tabs($tabs) {
 	return $tabs;
 }
 
-add_action( 'woocommerce_product_write_panels', 'wtf_munberbox_product_panel_content' );
+//add_action( 'woocommerce_product_write_panels', 'wtf_munberbox_product_panel_content' );
 function wtf_munberbox_product_panel_content() {
     // The new tab content
     global $post;
@@ -74,7 +74,7 @@ function wtf_munberbox_product_panel_content() {
     <?php
 }
 
-add_action( 'woocommerce_process_product_meta_simple', 'save_giftcard_option_fields'  );
+//add_action( 'woocommerce_process_product_meta_simple', 'save_giftcard_option_fields'  );
 function save_giftcard_option_fields( $post_id ) {
 	global $wp_roles;
 	$roles = $wp_roles->get_names();
