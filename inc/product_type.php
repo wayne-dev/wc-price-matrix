@@ -67,7 +67,7 @@ function pricing_options_product_tab_content() {
 			woocommerce_wp_checkbox( array(
 				'label' 	=> __( 'Enable pricing', 'woocommerce' ),
 				'id'			=> 'pricing_type',
-				'cbvalue' 			=> $_pricing_type,
+				'cbvalue' 			=> 'yes',
 				'value' 			=> $_pricing_type,
 			) );
 		?>
