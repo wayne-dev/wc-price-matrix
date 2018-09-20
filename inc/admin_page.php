@@ -82,7 +82,7 @@ function wpt_plugin_options() {
             $args_post = array(
 				'posts_per_page'   => -1,
                 'post_type' => 'product',
-                'order' => 'DESC',
+                'order' => 'ASC',
                 'orderby' => 'id',
                 'tax_query' => array(
                     array(
