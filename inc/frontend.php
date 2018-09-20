@@ -118,7 +118,7 @@ add_action('woocommerce_before_add_to_cart_button',function(){
 	</div>
    <script>
         jQuery(function($){
-            $(document).on('change', '.price_box select,.price_box *[name="product_side"]', function(){
+            $(document).on('change', '.price_box input,.price_box *[name="product_side"]', function(){
 				var price = calculate();
 				console.log(price);
 			});
@@ -131,7 +131,7 @@ add_action('woocommerce_before_add_to_cart_button',function(){
 					price = (width * height * unit_price).toFixed(2);
 					
 				$('[name="_in_pricing_table"]').remove();
-				if(price){
+				if(width && height){
 					$('.single-product .summary p.price,[name="add-to-cart"]').show();
 					$('.single-product .summary p.price span.price_amout').html(price);
 					$('.price_box').append('<input type = "hidden" value = "'+price+'" name = "_in_pricing_table" />');
