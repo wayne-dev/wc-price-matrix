@@ -128,7 +128,7 @@ add_action('woocommerce_before_add_to_cart_button',function(){
 					product_side = $('[name="product_side"]:checked').val(),
 					product_side = product_side ? product_side : '' ,
 					unit_price = $('.price_box').data('price_' + product_side) ,
-					price = width * height * unit_price;
+					price = (width * height * unit_price).toFixed(2);
 					
 				$('[name="_in_pricing_table"]').remove();
 				if(price){
