@@ -72,7 +72,7 @@ add_action('woocommerce_before_add_to_cart_button',function(){
 			</style>
 			<?php
 	?>
-	<link rel='stylesheet' id='thickbox-css'  href='<?php echo WTP_PLUGIN_URL . '/css/frontend.css' ;?>' type='text/css' media='all' />
+	<link rel='stylesheet' id='thickbox-css'  href='<?php echo WTP_PLUGIN_URL . 'css/frontend.css' ;?>' type='text/css' media='all' />
 	<p><label class ='price_unit_label' >Single price unit: </label><?php echo wc_price($price_single); ?> / sq</p>
 	<p><label class ='price_unit_label' >Double price unit: </label><?php echo wc_price($price_double); ?> / sq</p>
 	<div class = 'price_box' data-price_single = '<?php echo ($price_single); ?>'  data-price_double = '<?php echo ($price_double); ?>' >

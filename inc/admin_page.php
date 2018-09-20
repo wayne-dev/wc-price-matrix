@@ -3,12 +3,40 @@ add_action('admin_menu', 'wpt_plugin_menu');
 function wpt_plugin_menu() {
     add_menu_page(__('Pricing Table Products', 'sadecweb'), __('Pricing table ', 'sadecweb'), 'manage_options', 'pricing-table-product', 'wpt_plugin_options');
 
-    add_submenu_page('table-pricing-product', __('Settings', 'sadecweb'), __('Settings', 'sadecweb'), 'manage_options', 'sub-page', 'wpt_plugin_settings');
+    add_submenu_page('pricing-table-product', __('Settings', 'sadecweb'), __('Settings', 'sadecweb'), 'manage_options', 'sub-page', 'wpt_plugin_settings');
+
+    add_action( 'admin_init', 'register_wpt_plugin_settings' );
+}
+
+function register_wpt_plugin_settings(){
+    register_setting( 'wpt_plugin_setting_group', 'wpt_role' );
 }
 
 function wpt_plugin_settings() {
-?>
-    
+    ?>
+    <h2><?php _e( 'Setting Pricing Table', 'sadecweb' ); ?></h2>
+    <form method="post" action="options.php">
+    <?php settings_fields( 'wpt_plugin_setting_group' ); ?>
+    <?php do_settings_sections( 'wpt_plugin_setting_group' ); ?>
+    <table class="form-table">
+        <tr valign="top"><td>Role Table Price</td></tr>
+        <tr valign="top">
+    <?php
+    global $wp_roles;
+    $roles = $wp_roles->get_names();
+    foreach($roles as $key => $role) {
+        $wpt_role = get_option('wpt_role');
+        $checked = '';
+        if(isset($wpt_role) && in_array($key, $wpt_role)){
+            $checked = 'checked';
+        }
+    ?>
+        <td><label><input type="checkbox" name="wpt_role[]" value="<?php echo $key ?>" <?php echo $checked ?>/><?php echo $role ?></label></td>
+    <?php } ?>
+        </tr>
+    </table>
+    <?php submit_button(); ?>
+    </form>
 <?php
 }
 
@@ -17,25 +45,21 @@ function wpt_plugin_options() {
 		wp_die( __('You do not have sufficient permissions to access this page.') );
     }
     global $wp_roles;
-    $roles = $wp_roles->get_names();
-    $cats = array(599, 812, 61);
+    $roles_name = $wp_roles->get_names();
+    $cats = array(96, 94, 95);
     $i = 0;
     $html_role = '';
     $html_title = '';
     $html_sub_title = '';
-	$roles = array(
-		'trade-only-pricing' => 'Trade ONLY Pricing',
-		'wholesale-pricing' => 'Wholesale Pricing',
-		'retail-pricing' => 'Retail Pricing',
-		);
-    foreach($roles as $key => $role) {
-        $html_title .= '<td colspan="2" style="text-align: center;"><h4>'.$role.'</h4></td>';
+	$roles = get_option('wpt_role');
+    foreach($roles as $key) {
+        $html_title .= '<td colspan="2" style="text-align: center;"><h4>'.$roles_name[$key].'</h4></td>';
         $html_sub_title .= '<td class="single" style="text-align: center;"><h4>Single</h4></td>
 		<td class="double" style="text-align: center;"><h4>Double</h4></td>';
         $i += 2;
     }
 	?>
- <link rel='stylesheet' id='thickbox-css'  href='<?php echo WTP_PLUGIN_URL . '/css/price_box.css' ;?>' type='text/css' media='all' />
+ <link rel='stylesheet' id='thickbox-css'  href='<?php echo WTP_PLUGIN_URL . 'css/price_box.css' ;?>' type='text/css' media='all' />
    <h2 id = 'table_price_head'><?php _e( 'Pricing Table ', 'sadecweb' ); ?></h2>
     <table id="table-prices" >
         <tbody>
@@ -74,7 +98,7 @@ function wpt_plugin_options() {
                 <tr class="product" data-id="<?php echo $product->ID ?>">
                     <td class = "product_name"><?php echo get_the_title($product->ID); ?></td>
                     <?php
-                    foreach($roles as $key => $role) {
+                    foreach($roles as $key) {
                         echo '<td class="single"><input type = "number" min="0" step="0.1" placeholder = "N/A" name="_value_single_'.$key.'" id="_value_single_'.$key.'" value="'.get_post_meta($product->ID, '_value_single_'.$key, true).'" size="10"/></td>';
                         echo '<td class="double"><input type = "number" min="0" step="0.1" placeholder = "N/A" name="_value_double_'.$key.'" id="_value_double_'.$key.'" value="'.get_post_meta($product->ID, '_value_double_'.$key, true).'" size="10"/></td>';
                     }
@@ -109,18 +133,4 @@ function wpt_plugin_options() {
     <?php
 }
 
-function get_terms_dropdown_grade_level($taxonomies, $args){
-    $myterms = get_terms($taxonomies, $args);
-    $output ="<select multiple  name=''>"; //CHANGE ME!
-    foreach($myterms as $term){
-            $root_url = get_bloginfo('url');
-            $term_taxonomy=$term->taxonomy;
-            $term_slug=$term->slug;
-            $term_name =$term->name;
-            $link = $term_slug;
-            $output .="<option value='".$link."'>".$term_name."</option>";
-    }
-    $output .="</select>";
-    return $output;
-}
 ?>
