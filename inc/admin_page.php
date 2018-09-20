@@ -80,8 +80,10 @@ function wpt_plugin_options() {
             </tr>
             <?php
             $args_post = array(
-				'posts_per_page'   => 10,
+				'posts_per_page'   => -1,
                 'post_type' => 'product',
+                'order' => 'DESC',
+                'orderby' => 'id',
                 'tax_query' => array(
                     array(
                         'taxonomy' => 'product_cat',
