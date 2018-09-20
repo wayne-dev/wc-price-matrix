@@ -98,11 +98,11 @@ add_action('woocommerce_before_add_to_cart_button',function(){
 	?>
 		<p>
 			<label>Width (ft)</label>
-			<input name = "add_to_cart_width" max = '<?php echo $max_width; ?>' min = '<?php echo $min_width; ?>' />
+			<input type = 'number' step = 0.01 name = "add_to_cart_width" max = '<?php echo $max_width; ?>' min = '<?php echo $min_width; ?>' />
 		</p>
 		<p>
 			<label>Height (ft)</label>
-			<input name = "add_to_cart_height" max = '<?php echo $min_height; ?>' min = '<?php echo $max_height; ?>' />
+			<input type = 'number' step = 0.01 name = "add_to_cart_height" max = '<?php echo $max_height; ?>' min = '<?php echo $min_height; ?>' />
 		</p>
 		<p>
 			<label>
