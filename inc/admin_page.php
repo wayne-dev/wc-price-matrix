@@ -45,7 +45,7 @@ function wpt_plugin_options() {
     }
     global $wp_roles;
     $roles_name = $wp_roles->get_names();
-    $cats = array(96, 94, 95);
+    $cats = array(16, 17, 18);
     $i = 0;
     $html_role = '';
     $html_title = '';
