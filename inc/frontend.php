@@ -129,12 +129,12 @@ add_action('woocommerce_before_add_to_cart_button',function(){
 					product_side = product_side ? product_side : '' ,
 					unit_price = $('.price_box').data('price_' + product_side) ,
 					price = (width * height * unit_price).toFixed(2);
+				$('.price_box #warnning').remove();
+				$('[name="_in_pricing_table"]').remove();
 				if(width > max_width || height > max_height)	{
 					$('.price_box').append('<h3 id ="warnning">For a bigger size please contact us</h3>');
 					return ;
 				}
-				$('.price_box #warnning').remove();
-				$('[name="_in_pricing_table"]').remove();
 				if(width && height){
 					$('.single-product .summary p.price,[name="add-to-cart"]').show();
 					$('.single-product .summary p.price span.price_amout').html(price);
