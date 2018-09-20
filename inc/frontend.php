@@ -64,7 +64,7 @@ add_action('woocommerce_before_add_to_cart_button',function(){
 	$setting_roles = get_option('wpt_role');
 
 	$role = array_intersect($setting_roles,$role);
-	$role = $role[0] ;
+	$role = reset($role) ;
 	//$role = 'trade-only-pricing' ;
 	$price_single = get_unit_price($product_id,$role);
 	$price_double = get_unit_price($product_id,$role,false);
@@ -203,12 +203,10 @@ function custom_shop_page_redirect(){
     if (class_exists('WooCommerce')){
         if(is_product() && product_in_pricing_table ($postid) ){
 			$user = wp_get_current_user();
-
 			$role = ( array ) $user->roles;
 			$setting_roles = get_option('wpt_role');
-
 			$role = array_intersect($setting_roles,$role);
-			$role = $role[0] ;
+			$role = reset($role) ;
 			if(!$role){
 				$myaccount = get_permalink( wc_get_page_id( 'myaccount' ) );
 				wp_redirect($myaccount);
