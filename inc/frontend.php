@@ -1,6 +1,6 @@
 <?php
 add_filter( 'woocommerce_is_purchasable', function ( $purchasable, $product ){
-	if( $product->get_price() == 0 && 
+	if( product_in_pricing_table ($product->get_id()) && $product->get_price() == 0 && 
 		($_POST['add-to-cart']) && 
 		(!$_POST['add_to_cart_width'] || !$_POST['add_to_cart_height']) && 
 		!is_product() 
@@ -16,7 +16,7 @@ add_filter( 'woocommerce_is_purchasable', function ( $purchasable, $product ){
 }, 10, 2 );
 
 add_filter( 'woocommerce_get_price_html', function( $price, $product ){
-	if ( product_in_pricing_table ($product) && ('' === $product->get_price() || 0 == $product->get_price() ) ) {
+	if ( product_in_pricing_table ($product->get_id()) && ('' === $product->get_price() || 0 == $product->get_price() ) ) {
 		$price = 'Product price: ' . $price ;
 	} 
 	return $price;
@@ -54,15 +54,32 @@ add_filter( 'wc_price', function($return, $price, $args, $unformatted_price ){
 	return $return;
 }, 100, 5 );
 add_action('woocommerce_before_add_to_cart_button',function(){
+
 	global $product;
 	$product_id = $product->get_id();
-	$role = 'trade-only-pricing' ;
+	
+	$user = wp_get_current_user();
+
+    $role = ( array ) $user->roles;
+	$setting_roles = get_option('wpt_role');
+
+	$role = array_intersect($setting_roles,$role);
+	$role = $role[0] ;
+	//$role = 'trade-only-pricing' ;
 	$price_single = get_unit_price($product_id,$role);
 	$price_double = get_unit_price($product_id,$role,false);
 	
+	$_pricing_type 		= get_post_meta( $product_id, '_pricing_type' ,true)	;
+	$_pricing_width 	= get_post_meta( $product_id, '_pricing_width' ,true)	;
+	$_pricing_height 	= get_post_meta( $product_id, '_pricing_height' ,true)	;
+	$min_height = $_pricing_height[0] ;
+	$max_height = $_pricing_height[1] ;
+	$min_width = $_pricing_width[0] ;
+	$max_width = $_pricing_width[1] ;
+	$step = 1 ;
 	?>
 	<?php
-		if(product_in_pricing_table ($product)){
+		if(product_in_pricing_table ($product->get_id())){
 			?>
 			<style>
 			.single-product .summary p.price,
@@ -73,23 +90,26 @@ add_action('woocommerce_before_add_to_cart_button',function(){
 			<?php
 	?>
 	<link rel='stylesheet' id='thickbox-css'  href='<?php echo WTP_PLUGIN_URL . 'css/frontend.css' ;?>' type='text/css' media='all' />
-	<p><label class ='price_unit_label' >Single price unit: </label><?php echo wc_price($price_single); ?> / sq</p>
-	<p><label class ='price_unit_label' >Double price unit: </label><?php echo wc_price($price_double); ?> / sq</p>
+	<p><label class ='price_unit_label' >Single price per unit: </label><?php echo wc_price($price_single); ?> / sq</p>
+	<p><label class ='price_unit_label' >Double price per unit: </label><?php echo wc_price($price_double); ?> / sq</p>
 	<div class = 'price_box' data-price_single = '<?php echo ($price_single); ?>'  data-price_double = '<?php echo ($price_double); ?>' >
+	<?php
+	
+	?>
 		<p>
 			<label>Width (ft)</label>
 			<select name = 'add_to_cart_width' >
-				<option>0</option>
-				<option value = 1 >1</option>
-				<option value = 2 >2</option>
+				<?php for($i = $min_width ; $i <= $max_width ; $i += $step) { ?>
+				<option value = <?php echo $i; ?> ><?php echo $i; ?></option>
+				<?php } ?>
 			</select>
 		</p>
 		<p>
 			<label>Height (ft)</label>
 			<select name = 'add_to_cart_height' >
-				<option>0</option>
-				<option value = 1 >1</option>
-				<option value = 2 >2</option>
+				<?php for($i = $min_height ; $i <= $max_height ; $i += $step) { ?>
+				<option value = <?php echo $i; ?> ><?php echo $i; ?></option>
+				<?php } ?>
 			</select>
 		</p>
 		<p>
@@ -170,9 +190,32 @@ function update_custom_price( $cart_object ) {
     }
 	return $cart_object ;
 }
-function product_in_pricing_table ($product){
-	if( 1 )
+function product_in_pricing_table ($id){
+
+	if(get_post_meta( $id, '_pricing_type' ,true) == 'yes' ) 
 		return true;
 	return false;	
 }
+add_action('template_redirect','custom_shop_page_redirect',100);
+function custom_shop_page_redirect(){
+	$postid = get_queried_object_id();
+
+    if (class_exists('WooCommerce')){
+        if(is_product() && product_in_pricing_table ($postid) ){
+			$user = wp_get_current_user();
+
+			$role = ( array ) $user->roles;
+			$setting_roles = get_option('wpt_role');
+
+			$role = array_intersect($setting_roles,$role);
+			$role = $role[0] ;
+			if(!$role){
+				$myaccount = get_permalink( wc_get_page_id( 'myaccount' ) );
+				wp_redirect($myaccount);
+				exit();
+			}
+        }
+    } 
+    return;
+} 
 ?>

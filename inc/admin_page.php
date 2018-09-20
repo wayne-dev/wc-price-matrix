@@ -24,10 +24,10 @@ function wpt_plugin_settings() {
     <?php
     global $wp_roles;
     $roles = $wp_roles->get_names();
-    foreach($roles as $key => $role) {
+   if (is_array($roles)) foreach($roles as $key => $role) {
         $wpt_role = get_option('wpt_role');
         $checked = '';
-        if(isset($wpt_role) && in_array($key, $wpt_role)){
+        if(is_array($wpt_role) && in_array($key, $wpt_role)){
             $checked = 'checked';
         }
     ?>
@@ -51,7 +51,7 @@ function wpt_plugin_options() {
     $html_title = '';
     $html_sub_title = '';
 	$roles = get_option('wpt_role');
-    foreach($roles as $key) {
+    if (is_array($roles)) foreach($roles as $key) {
         $html_title .= '<td colspan="2" style="text-align: center;"><h4>'.$roles_name[$key].'</h4></td>';
         $html_sub_title .= '<td class="single" style="text-align: center;"><h4>Single</h4></td>
 		<td class="double" style="text-align: center;"><h4>Double</h4></td>';
@@ -99,7 +99,7 @@ function wpt_plugin_options() {
                 <tr class="product" data-id="<?php echo $product->ID ?>">
                     <td class = "product_name"><?php echo get_the_title($product->ID); ?></td>
                     <?php
-                    foreach($roles as $key) {
+                    if (is_array($roles)) foreach($roles as $key) {
                         echo '<td class="single"><input type = "number" min="0" step="0.1" placeholder = "N/A" name="_value_single_'.$key.'" id="_value_single_'.$key.'" value="'.get_post_meta($product->ID, '_value_single_'.$key, true).'" size="10"/></td>';
                         echo '<td class="double"><input type = "number" min="0" step="0.1" placeholder = "N/A" name="_value_double_'.$key.'" id="_value_double_'.$key.'" value="'.get_post_meta($product->ID, '_value_double_'.$key, true).'" size="10"/></td>';
                     }

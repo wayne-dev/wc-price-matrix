@@ -21,5 +21,6 @@ if ( ! defined( 'WTP_PLUGIN_PATH' ) ) {
 
 require_once("inc/admin_page.php");
 require_once("inc/woocommerce.php");
+require_once("inc/product_type.php");
 require_once("inc/functions.php");
 require_once("inc/frontend.php");
