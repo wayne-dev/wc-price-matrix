@@ -114,13 +114,13 @@ add_action('woocommerce_before_add_to_cart_button',function(){
 				<input type = 'radio' name = 'product_side' value = 'double' />
 			</label>
 		</p>
-		<h3>For a bigger size please contact us</h3>
+		
 	</div>
    <script>
         jQuery(function($){
+			var max_width = <?php echo $max_width; ?>,max_height = <?php echo $max_height; ?>;
             $(document).on('change', '.price_box input,.price_box *[name="product_side"]', function(){
 				var price = calculate();
-				console.log(price);
 			});
 			function calculate(){
 				var width = $('[name="add_to_cart_width"]').val(),
@@ -129,7 +129,11 @@ add_action('woocommerce_before_add_to_cart_button',function(){
 					product_side = product_side ? product_side : '' ,
 					unit_price = $('.price_box').data('price_' + product_side) ,
 					price = (width * height * unit_price).toFixed(2);
-					
+				if(width > max_width || height > max_height)	{
+					$('.price_box').append('<h3 id ="warnning">For a bigger size please contact us</h3>');
+					return ;
+				}
+				$('.price_box #warnning').remove();
 				$('[name="_in_pricing_table"]').remove();
 				if(width && height){
 					$('.single-product .summary p.price,[name="add-to-cart"]').show();
