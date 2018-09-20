@@ -114,6 +114,7 @@ add_action('woocommerce_before_add_to_cart_button',function(){
 				<input type = 'radio' name = 'product_side' value = 'double' />
 			</label>
 		</p>
+		<h3>For a bigger size please contact us</h3>
 	</div>
    <script>
         jQuery(function($){
