@@ -20,7 +20,7 @@ function wpt_plugin_settings() {
     <?php do_settings_sections( 'wpt_plugin_setting_group' ); ?>
     <table class="form-table">
         <tr valign="top"><td>Role Table Price</td></tr>
-        <tr valign="top">
+        
     <?php
     global $wp_roles;
     $roles = $wp_roles->get_names();
@@ -31,9 +31,8 @@ function wpt_plugin_settings() {
             $checked = 'checked';
         }
     ?>
-        <td><label><input type="checkbox" name="wpt_role[]" value="<?php echo $key ?>" <?php echo $checked ?>/><?php echo $role ?></label></td>
+        <tr valign="top"><td><label><input type="checkbox" name="wpt_role[]" value="<?php echo $key ?>" <?php echo $checked ?>/><?php echo $role ?></label></td></tr>
     <?php } ?>
-        </tr>
     </table>
     <?php submit_button(); ?>
     </form>
