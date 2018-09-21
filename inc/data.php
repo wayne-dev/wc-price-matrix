@@ -35,27 +35,6 @@ $table5[2][0] = 200.52;	$table5[2][1] = 354.24;	$table5[2][2] = 402.84;	$table5[
 $table5[3][0] = 230.58;	$table5[3][1] = 405.36;	$table5[3][2] = 462.96;	$table5[3][3] = 636.84;	$table5[3][4] = 692.64;	$table5[3][5] = 904.32; 
 $table5[4][0] = 247.68;	$table5[4][1] = 430.56;	$table5[4][2] = 497.16;	$table5[4][3] = 642.24;	$table5[4][4] = 743.04;	$table5[4][5] = 958.32; 
 
-$selection_matrix[1] = $table1 ;
-$selection_matrix[2] = $table2 ;
-$selection_matrix[3] = $table3 ;
-$selection_matrix[4] = $table4 ;
-$selection_matrix[5] = $table5 ;
-
-$addon_matrix['Thermal']['Pencil Pleat'] = 1 ;// Thermal + Pencil Pleat => table #1
-$addon_matrix['Thermal']['Eyelet'] = 4 ;// Thermal + Eyelet => table #4
-$addon_matrix['Handsewn Inter lined']['Eyelet'] = 3 ;// Thermal + Eyelet => table #3
-$addon_matrix['Blackout']['Pencil Pleat'] = 2 ;// Blackout + PencilPleat => table #2
-$addon_matrix['Blackout']['Eyelet'] = 5 ;// Blackout + Eyelet => table #5
-
-$instant['width'] = array(
-	'cm' 	=> array(127,193,260,329,398,546),
-	'inch' 	=> array(50,76,102,130,157,215)
-) ;
-$instant['drop'] = array(
-	'cm' 	=> array(137,183,228,274,330),
-	'inch' 	=> array(54,72,90,108,130)
-) ;
-
 
 
 

@@ -1,5 +1,7 @@
 <?php
 function get_price_matrix ($selection_matrix = array(), $table, $x, $y){
+	global $post;
+	$selection_matrix = get_post_meta($post->ID, '_value_matrix', true);
 	return $selection_matrix[(int)$table][(int)$y][(int)$x] ? $selection_matrix[(int)$table][(int)$y][(int)$x] : null ;
 }
 function near_coor($array = array(),$value){
@@ -80,7 +82,7 @@ add_filter( 'wc_price', function($return, $price, $args, $unformatted_price ){
 add_action('woocommerce_before_add_to_cart_button',function(){
 	if(isset($_REQUEST['get_instant']) && $_REQUEST['get_instant'] == 1) {
 		if(isset($_REQUEST['lining'],$_REQUEST['instant_width'],$_REQUEST['instant_drop']) && $_REQUEST['lining']&& $_REQUEST['instant_width']&& $_REQUEST['instant_drop']){
-			require_once(WTP_PLUGIN_PATH."inc/data.php");
+			//require_once(WTP_PLUGIN_PATH."inc/data.php");
 			global $addon_matrix,$selection_matrix,$instant;
 			$lining = $_REQUEST['lining'] ;
 			$headings = $addon_matrix[$lining] ;
@@ -139,7 +141,7 @@ add_action('woocommerce_before_add_to_cart_form',function(){
 		$instant_drop = $_REQUEST['instant_drop'] ;
 	}
 	//if(isset($_REQUEST['get_instant']) && $_REQUEST['get_instant'] == 1) {
-		require_once(WTP_PLUGIN_PATH."inc/data.php");
+		//require_once(WTP_PLUGIN_PATH."inc/data.php");
 		global $addon_matrix,$selection_matrix,$instant;
 		$lining = $_REQUEST['lining'] ;
 		$cubit = $_REQUEST['_cubit'] ?  $_REQUEST['_cubit'] : 'cm';
@@ -205,7 +207,7 @@ add_filter( 'woocommerce_add_cart_item_data', function($cart_item_data, $product
 		$y_drop 		= $_REQUEST['y_drop'] ;
 		$instant_drop 	= $_REQUEST['instant_drop'] ;
 		$instant_width 		= $_REQUEST['instant_width'] ;
-		require_once(WTP_PLUGIN_PATH."inc/data.php");
+		//require_once(WTP_PLUGIN_PATH."inc/data.php");
 		global $addon_matrix,$selection_matrix,$instant;
 		
 		$price = get_price_matrix($selection_matrix,$matrix_table,$x_width ,$y_drop) ;
