@@ -1,6 +1,6 @@
 <?php
 /*
-  Plugin Name: WP Table Product
+  Plugin Name: matrix price
   Plugin URI: https://sadecweb.com/
   Description: 
   Version: 1.0
@@ -19,8 +19,8 @@ if ( ! defined( 'WTP_PLUGIN_PATH' ) ) {
     define( 'WTP_PLUGIN_URL', plugin_dir_url( __FILE__ ));
 }
 
-require_once("inc/admin_page.php");
-require_once("inc/woocommerce.php");
-require_once("inc/product_type.php");
+//require_once("inc/admin_page.php");
+//require_once("inc/woocommerce.php");
+//require_once("inc/product_type.php");
 require_once("inc/functions.php");
 require_once("inc/frontend.php");

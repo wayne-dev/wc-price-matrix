@@ -1,4 +1,5 @@
 <?php
+/*
 function get_unit_price ($product_id, $role, $single = true){
     $key = '_value_single_';
     if(!$single){
@@ -9,4 +10,4 @@ function get_unit_price ($product_id, $role, $single = true){
 
    $price = get_post_meta($product_id, $key, true);
     return $price;
-} 
+} */
