@@ -45,8 +45,27 @@ function matrix_price_custom_style() {
 		$.post('<?php echo admin_url( 'admin-ajax.php' ); ?>', data, function(response){
 			var uri = 'data:application/json;charset=UTF-8,' + JSON.stringify(response);
 			$('#export_matrix_price').attr('href', uri);
-			$('#export_matrix_price').attr('download', 'export.json');
+			$('#export_matrix_price').attr('download', 'data_matrix_prices_product(<?php echo $post->ID; ?>)-'+ new Date().toLocaleDateString() +'.json');
 			$('.feature_import').show();
+		});
+		$('#import_matrix_price').click(function(){
+			var _closset = $(this).parent();
+			var _input = _closset.find('input');
+			var formdata = new FormData();
+			formdata.append('action', 'wmp_import_matrix_prices');
+			formdata.append('id', '<?php echo $post->ID; ?>');
+			formdata.append('data_import', _input[0].files[0], _input[0].files[0].name);
+			$.ajax({
+				url: '<?php echo admin_url( 'admin-ajax.php' ); ?>',
+				type: 'POST',
+				dataType: 'json',
+				processData: false,
+				contentType:false,
+				data: formdata,
+				success: function(){
+					location.reload();
+				}
+			});
 		});
 	});
 	</script><?php
@@ -62,7 +81,10 @@ function wtf_matrix_price_product_panel_content() {
 	<link rel='stylesheet' id='thickbox-css'  href='<?php echo WTP_PLUGIN_URL . 'css/price_box.css' ;?>' type='text/css' media='all' />
 	<div class="feature_import" style="display: none;">
 		<a href="javascript:void(0)" id="export_matrix_price"><?php _e('Export', 'sadecweb'); ?></a>
-		<a href="javascript:void(0)" id="import_matrix_price"><?php _e('Import', 'sadecweb'); ?></a>
+		<div class="import_field">
+			<input type="file" id="impoft_value" name="impoft_value" accept=".json" />
+			<a href="javascript:void(0)" id="import_matrix_price"><?php _e('Import', 'sadecweb'); ?></a>
+		</div>
 	</div>
 	<div class='options_group'>
 		<table id="table-prices" >
@@ -151,4 +173,22 @@ function wtp_save_table_price(){
 			update_post_meta( $product_id, $meta_box['meta'],  $meta_box['value'] );
 		}
 	}
+}
+
+add_action( 'wp_ajax_export_matrix_prices', 'export_matrix_prices' );
+function export_matrix_prices(){
+    $product_id = $_POST['id'];
+    $_value_matrix = get_post_meta($product_id, '_value_matrix', true);
+    wp_send_json($_value_matrix);
+    wp_die();
+}
+
+add_action( 'wp_ajax_wmp_import_matrix_prices', 'wmp_import_matrix_prices' );
+function wmp_import_matrix_prices(){
+	$content = trim(file_get_contents($_FILES['data_import']['tmp_name']));
+	$product_id = $_POST['id'];
+	$decoded = json_decode($content, true);
+    $_value_matrix = update_post_meta($product_id, '_value_matrix', $decoded);
+    wp_send_json(array(''));
+    wp_die();
 }
